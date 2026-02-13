@@ -42,3 +42,43 @@ def complete_task(tasks):
         print(f"Task ID {task_id} marked as completed.")
     else:
         print("Task ID not found.")
+        
+# Delete a task.
+def delete_task(tasks):
+    task_id = int(input("Enter task ID to delete: "))
+    if task_id in tasks:
+        del tasks[task_id]
+        print(f"Task ID {task_id} deleted.")
+    else:
+        print("Task ID not found.")
+        
+# Main Menu
+def main():
+    tasks = load_tasks()
+    while True:
+        print("\nTask Manager")
+        print("1. Add Task")
+        print("2. View Tasks")
+        print("3. Mark Task as Complete")
+        print("4. Delete Task")
+        print("5. Exit")
+        
+        choice = input("Enter your choice: ")
+        
+        if choice == "1":
+            add_task(tasks)
+        elif choice == "2":
+            view_tasks(tasks)
+        elif choice == "3":
+            complete_task(tasks)
+        elif choice == "4":
+            delete_task(tasks)
+        elif choice == "5":
+            save_tasks(tasks)
+            print("Exiting Task Manager. Goodbye!")
+            break
+        else:
+            print("Invalid choice. Please try again.")
+            
+if __name__ == "__main__":
+    main()
