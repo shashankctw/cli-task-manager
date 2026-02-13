@@ -3,6 +3,7 @@ import json
 
 # File to store tasks.
 FILE_NAME = "tasks.json"
+VALID_PRIORITIES = ["low", "medium", "high"]
 
 # Load tasks from the file.
 def load_tasks():
@@ -20,8 +21,12 @@ def save_tasks(tasks):
 # Add a new task.
 def add_task(tasks):
     title = input("Enter task title: ")
+    priority = input("Enter task priority (low, medium, high): ").lower()
+    while priority not in VALID_PRIORITIES:
+        print("Invalid priority. Please enter low, medium, or high.")
+        priority = input("Enter task priority (low, medium, high): ").lower()
     task_id = max(tasks.keys(), default=0) + 1
-    tasks[task_id] = {"title": title, "status": "pending"}
+    tasks[task_id] = {"title": title, "priority": priority, "status": "pending"}
     print(f"Task '{title}' added with ID {task_id}.")
     
 # View all tasks.
@@ -30,7 +35,7 @@ def view_tasks(tasks):
         print("No tasks found.")
         return
     for task_id, task in tasks.items():
-        print(f"ID: {task_id}, Title: {task['title']}, Status: {task['status']}")
+        print(f"ID: {task_id}, Title: {task['title']}, Priority: {task['priority']}, Status: {task['status']}")
         
 # Mark a task as completed.
 def complete_task(tasks):
