@@ -1,5 +1,6 @@
 import os
 import json
+from datetime import datetime
 
 # File to store tasks.
 FILE_NAME = "tasks.json"
@@ -25,8 +26,15 @@ def add_task(tasks):
     while priority not in VALID_PRIORITIES:
         print("Invalid priority. Please enter low, medium, or high.")
         priority = input("Enter task priority (low, medium, high): ").lower()
+    due_date = input("Enter due date (YYYY-MM-DD) or leave blank: ")
+    if due_date:
+        try:
+            datetime.strptime(due_date, "%Y-%m-%d")
+        except ValueError:
+            print("Invalid date format. Task will be added without a due date.")
+            due_date = None
     task_id = max(tasks.keys(), default=0) + 1
-    tasks[task_id] = {"title": title, "priority": priority, "status": "pending"}
+    tasks[task_id] = {"title": title, "priority": priority, "due_date": due_date, "status": "pending"}
     print(f"Task '{title}' added with ID {task_id}.")
     
 # View all tasks.
@@ -35,7 +43,7 @@ def view_tasks(tasks):
         print("No tasks found.")
         return
     for task_id, task in tasks.items():
-        print(f"ID: {task_id}, Title: {task['title']}, Priority: {task['priority']}, Status: {task['status']}")
+        print(f"ID: {task_id}, Title: {task['title']}, Priority: {task['priority']}, Due Date: {task['due_date']}, Status: {task['status']}")
         
 # Mark a task as completed.
 def complete_task(tasks):
