@@ -1,23 +1,21 @@
 import os
+import json
 
 # File to store tasks.
-FILE_NAME = "tasks.txt"
+FILE_NAME = "tasks.json"
 
 # Load tasks from the file.
 def load_tasks():
     tasks = {}
     if os.path.exists(FILE_NAME):
         with open(FILE_NAME, "r") as file:
-            for line in file:
-                task_id, title, status = line.strip().split("|")
-                tasks[int(task_id)] = {"title": title, "status": status}
+            tasks = json.load(file)
     return tasks
 
 # Save tasks to the file.
 def save_tasks(tasks):
     with open(FILE_NAME, "w") as file:
-        for task_id, task in tasks.items():
-            file.write(f"{task_id}|{task['title']}|{task['status']}\n")
+        json.dump(tasks, file, indent=4)
             
 # Add a new task.
 def add_task(tasks):
