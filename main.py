@@ -42,7 +42,14 @@ def view_tasks(tasks):
     if not tasks:
         print("No tasks found.")
         return
-    for task_id, task in tasks.items():
+    
+    priority_order = {"high": 1, "medium": 2, "low": 3}
+    
+    sorted_tasks = sorted(
+        tasks.items(),
+        key=lambda item: (priority_order.get(item[1]["priority"], 4), item[1]["due_date"] or "9999-12-31"))
+    
+    for task_id, task in sorted_tasks:
         print(f"ID: {task_id}, Title: {task['title']}, Priority: {task['priority']}, Due Date: {task['due_date']}, Status: {task['status']}")
         
 # Mark a task as completed.
